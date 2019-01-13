@@ -1,0 +1,38 @@
+apply from: "${rootDir}/gradle/java.gradle"
+
+apply plugin: 'org.springframework.boot'
+
+project(":core-app") {
+    dependencies {
+        compile project(":common-dtos")
+        compile project(":core-api")
+        compile project(":core-rest")
+
+        compile libs.spring_boot_starter_web
+        compile libs.spring_boot_starter_data_jpa
+        compile libs.hibernateJava8
+        compile libs.h2
+        //compile libs.mySql
+        runtime libs.mySql
+        compile libs.liquibase
+        //compile libs.guava
+
+        compile libs.spring_boot_starter_test
+    }
+}
+/*
+group 'lv.infenrio'
+version '0.0.1-SNAPSHOT'
+
+apply from: "${rootDir}/gradle/java.gradle"
+
+apply plugin: 'org.springframework.boot'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+*/

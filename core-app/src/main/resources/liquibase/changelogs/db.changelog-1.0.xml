@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="maksim" context="main">
+        <createTable tableName="neural_network">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="epoch_count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+			
+			<column name="max_error" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+			
+			<column name="learning_rate" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+			
+			<column name="momentum" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+			
+			<column name="input_count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+			
+			<column name="hidden_count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+			
+			<column name="output_count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+		<addUniqueConstraint columnNames="name"
+            constraintName="unique_name"
+            deferrable="true"
+            disabled="true"
+            initiallyDeferred="true"
+            tableName="neural_network"/>
+    </changeSet>
+	
+	<changeSet id="2" author="maksim" context="main">
+        <createTable tableName="neuron">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="neural_network_idref" type="INT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="weight" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+			
+			<column name="type" type="varchar(8)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+		<createTable tableName="synapse">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="neural_network_idref" type="INT">
+                <constraints nullable="false"/>
+            </column>
+			
+			<column name="neuron_in_idref" type="INT">
+                <constraints nullable="false"/>
+            </column>
+			
+			<column name="neuron_out_idref" type="INT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="weight" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+			
+			<column name="type" type="varchar(8)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="maksim" context="main">
+        <addForeignKeyConstraint baseColumnNames="neural_network_idref"
+            baseTableName="neuron"
+            constraintName="fk_neuron_neural_network"
+            onDelete="CASCADE"
+            onUpdate="RESTRICT"
+            referencedColumnNames="id"
+            referencedTableName="neural_network"/>
+		<addForeignKeyConstraint baseColumnNames="neural_network_idref"
+            baseTableName="synapse"
+            constraintName="fk_synapse_neural_network"
+            onDelete="CASCADE"
+            onUpdate="RESTRICT"
+            referencedColumnNames="id"
+            referencedTableName="neural_network"/>
+		<addForeignKeyConstraint baseColumnNames="neuron_in_idref"
+            baseTableName="synapse"
+            constraintName="fk_synapse_neuron_in"
+            onDelete="CASCADE"
+            onUpdate="RESTRICT"
+            referencedColumnNames="id"
+            referencedTableName="neuron"/>
+		<addForeignKeyConstraint baseColumnNames="neuron_out_idref"
+            baseTableName="synapse"
+            constraintName="fk_synapse_neuron_out"
+            onDelete="CASCADE"
+            onUpdate="RESTRICT"
+            referencedColumnNames="id"
+            referencedTableName="neuron"/>
+    </changeSet>
+    <changeSet id="4" author="maksim" context="main">
+        <createTable tableName="new_table_1">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="5" author="maksim" context="main">
+        <createTable tableName="new_table_2">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="6" author="maksim" context="main">
+        <createSequence sequenceName="hibernate_sequence" />
+    </changeSet>
+</databaseChangeLog>

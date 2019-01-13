@@ -1,0 +1,6 @@
+rootProject.name = 'neural_network'
+include 'common-dtos'
+include 'core-app'
+include 'core-api'
+include 'core-rest'
+
