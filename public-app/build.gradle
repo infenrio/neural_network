@@ -1,0 +1,12 @@
+apply from: "${rootDir}/gradle/java.gradle"
+
+project(":public-app") {
+    dependencies {
+        compile project(":common-dtos")
+
+        compile libs.spring_boot_starter_web
+        compile libs.spring_boot_starter_activemq
+        compile libs.spring_boot_starter_test
+        compile libs.activemqPool
+    }
+}

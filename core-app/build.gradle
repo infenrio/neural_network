@@ -7,6 +7,7 @@ project(":core-app") {
         compile project(":common-dtos")
         compile project(":core-api")
         compile project(":core-rest")
+        compile project(":core-jms")
 
         compile libs.spring_boot_starter_web
         compile libs.spring_boot_starter_data_jpa
@@ -15,7 +16,7 @@ project(":core-app") {
         //compile libs.mySql
         runtime libs.mySql
         compile libs.liquibase
-        //compile libs.guava
+        compile libs.guava
 
         compile libs.spring_boot_starter_test
     }

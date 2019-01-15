@@ -2,6 +2,7 @@ ext {
     versions = [
             springBootVersion            : "2.1.1.RELEASE",
             h2Version                    : "1.4.197",
+            guavaVersion                 : "23.0",
             mySqlVersion                 : "8.0.13",
             liquibaseVersion             : "3.6.2",
             hibernateVersion             : "5.4.0.Final",
@@ -14,6 +15,7 @@ ext {
             spring_boot_starter_test    : "org.springframework.boot:spring-boot-starter-test:$versions.springBootVersion",
 
             h2                          : "com.h2database:h2:$versions.h2Version",
+            guava                       : "com.google.guava:guava:$versions.guavaVersion",
             mySql                       : "mysql:mysql-connector-java:$versions.mySqlVersion",
             liquibase                   : "org.liquibase:liquibase-core:$versions.liquibaseVersion",
             hibernateJava8              : "org.hibernate:hibernate-java8:$versions.hibernateVersion",

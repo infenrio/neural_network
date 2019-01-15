@@ -1,5 +1,7 @@
 package lv.infenrio.core.domain;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,7 +9,8 @@ import javax.persistence.*;
 public class Synapse {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator="native")
+    @GenericGenerator(name = "native", strategy = "native")
     @Column(name="id", nullable = false)
     private int id;
 
@@ -29,6 +32,7 @@ public class Synapse {
     @Column(name="type", nullable = false)
     private String type;
 
+    @Transient
     private double tempValue;
 
     public int getId() {

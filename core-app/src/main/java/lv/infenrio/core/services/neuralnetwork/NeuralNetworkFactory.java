@@ -9,7 +9,8 @@ import lv.infenrio.core.domain.Synapse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static lv.infenrio.core.domain.builders.NeuralNetworkBuilder.createNeuralNetwork;
@@ -39,32 +40,32 @@ public class NeuralNetworkFactory {
         NeuralNetwork result = neuralNetworkRepository.save(neuralNetwork);
         Neuron neuronTemp;
         Random random = new Random();
-        HashMap<Integer, Neuron> inputNeurons = new HashMap();
+        List<Neuron> inputNeurons = new ArrayList<>();
         for(int i=0; i<inputCount; i++) {
             neuronTemp = createNeuron()
                     .withNeuralNetwork(result)
                     .withWeight(0)
                     .withType("IN").build();
             neuronTemp = neuronRepository.save(neuronTemp);
-            inputNeurons.put(neuronTemp.getId(), neuronTemp);
+            inputNeurons.add(neuronTemp);
         }
-        HashMap<Integer, Neuron> hiddenNeurons = new HashMap();
+        List<Neuron> hiddenNeurons = new ArrayList<>();
         for(int i=0; i<hiddenCount; i++) {
             neuronTemp = createNeuron()
                     .withNeuralNetwork(result)
                     .withWeight(random.nextDouble() - 0.5)
                     .withType("HID").build();
             neuronTemp = neuronRepository.save(neuronTemp);
-            hiddenNeurons.put(i, neuronTemp);
+            hiddenNeurons.add(neuronTemp);
         }
-        HashMap<Integer, Neuron> outputNeurons = new HashMap();
+        List<Neuron> outputNeurons = new ArrayList<>();
         for(int i=0; i<outputCount; i++) {
             neuronTemp = createNeuron()
                     .withNeuralNetwork(result)
                     .withWeight(random.nextDouble() - 0.5)
                     .withType("OUT").build();
             neuronTemp = neuronRepository.save(neuronTemp);
-            outputNeurons.put(neuronTemp.getId(), neuronTemp);
+            outputNeurons.add(neuronTemp);
         }
         Synapse synapseTemp;
         for(int i=0; i<inputCount; i++) {
