@@ -27,6 +27,12 @@ public class Neuron {
     @Transient
     private double tempValue;
 
+    @Transient
+    private double deltaInitialWeight;
+
+    @Transient
+    private double deltaTempValue;
+
     public int getId() {
         return id;
     }
@@ -65,6 +71,22 @@ public class Neuron {
 
     public void setTempValue(double tempValue) {
         this.tempValue = tempValue;
+    }
+
+    public double getDeltaInitialWeight() {
+        return deltaInitialWeight;
+    }
+
+    public void setDeltaInitialWeight(double deltaInitialWeight) {
+        this.deltaInitialWeight = deltaInitialWeight;
+    }
+
+    public double getDeltaTempValue() {
+        return deltaTempValue;
+    }
+
+    public void setDeltaTempValue(double deltaTempValue) {
+        this.deltaTempValue = deltaTempValue;
     }
 
     @Override

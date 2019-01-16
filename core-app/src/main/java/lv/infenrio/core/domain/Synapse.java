@@ -35,6 +35,9 @@ public class Synapse {
     @Transient
     private double tempValue;
 
+    @Transient
+    private double deltaWeight;
+
     public int getId() {
         return id;
     }
@@ -89,6 +92,14 @@ public class Synapse {
 
     public void setTempValue(double tempValue) {
         this.tempValue = tempValue;
+    }
+
+    public double getDeltaWeight() {
+        return deltaWeight;
+    }
+
+    public void setDeltaWeight(double deltaWeight) {
+        this.deltaWeight = deltaWeight;
     }
 
     @Override

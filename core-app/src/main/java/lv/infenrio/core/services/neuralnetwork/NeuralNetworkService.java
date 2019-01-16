@@ -1,7 +1,10 @@
 package lv.infenrio.core.services.neuralnetwork;
 
+import lv.infenrio.common.dtos.LearningDataDTO;
+import lv.infenrio.common.dtos.LearningResultDTO;
 import lv.infenrio.common.dtos.SingleInputDataDTO;
 import lv.infenrio.common.dtos.SingleOutputDataDTO;
+import lv.infenrio.core.api.commands.neuralnetwork.LearnOnInputResult;
 import lv.infenrio.core.database.NeuralNetworkRepository;
 import lv.infenrio.core.database.NeuronRepository;
 import lv.infenrio.core.database.SynapseRepository;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static lv.infenrio.core.domain.builders.NeuralNetworkWrapperBuilder.createNeuralNetworkWrapper;
 
@@ -62,5 +66,28 @@ public class NeuralNetworkService {
         NeuralNetworkWrapper neuralNetworkWrapper = get(name);
         neuralNetworkWrapper.prepareNetwork();
         return neuralNetworkWrapper.processSingleInput(singleInput);
+    }
+
+    public LearningResultDTO learnOnInput(String name, LearningDataDTO learningData) {
+        NeuralNetworkWrapper neuralNetworkWrapper = get(name);
+        int epoch = neuralNetworkWrapper.learnOnInput(learningData);
+        LearningResultDTO learningResult = new LearningResultDTO();
+        learningResult.setEpoch(epoch);
+        for(Map.Entry<Integer, Neuron> pair : neuralNetworkWrapper.getInputNeurons().entrySet()) {
+            neuronRepository.save(pair.getValue());
+        }
+        for(Map.Entry<Integer, Neuron> pair : neuralNetworkWrapper.getHiddenNeurons().entrySet()) {
+            neuronRepository.save(pair.getValue());
+        }
+        for(Map.Entry<Integer, Neuron> pair : neuralNetworkWrapper.getOutputNeurons().entrySet()) {
+            neuronRepository.save(pair.getValue());
+        }
+        for(Map.Entry<Integer, Synapse> pair : neuralNetworkWrapper.getInputHiddenSynapses().entrySet()) {
+            synapseRepository.save(pair.getValue());
+        }
+        for(Map.Entry<Integer, Synapse> pair : neuralNetworkWrapper.getHiddenOutputSynapses().entrySet()) {
+            synapseRepository.save(pair.getValue());
+        }
+        return learningResult;
     }
 }

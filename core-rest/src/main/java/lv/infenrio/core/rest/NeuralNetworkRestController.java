@@ -1,13 +1,8 @@
 package lv.infenrio.core.rest;
 
-import lv.infenrio.common.dtos.NeuralNetworkDTO;
-import lv.infenrio.common.dtos.SingleInputDataDTO;
-import lv.infenrio.common.dtos.SingleOutputDataDTO;
+import lv.infenrio.common.dtos.*;
 import lv.infenrio.core.api.CommandExecutor;
-import lv.infenrio.core.api.commands.neuralnetwork.CreateNeuralNetworkCommand;
-import lv.infenrio.core.api.commands.neuralnetwork.CreateNeuralNetworkResult;
-import lv.infenrio.core.api.commands.neuralnetwork.ProcessSingleInputCommand;
-import lv.infenrio.core.api.commands.neuralnetwork.ProcessSingleInputResult;
+import lv.infenrio.core.api.commands.neuralnetwork.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +21,6 @@ public class NeuralNetworkRestController {
         this.commandExecutor = commandExecutor;
     }
 
-//    @RequestMapping(method = RequestMethod.POST, value="/clients")
     @PostMapping("/networks")
     public NeuralNetworkDTO create(@RequestBody NeuralNetworkDTO neuralNetworkDTO) {
         CreateNeuralNetworkCommand command = new CreateNeuralNetworkCommand(
@@ -53,11 +47,13 @@ public class NeuralNetworkRestController {
         return result.getSingleOutput();
     }
 
-//    @GetMapping("/clients/{clientId}")
-//    @ResponseBody
-//    public ClientDTO get(@PathVariable("clientId") Long clientId) {
-//        GetClientCommand command = new GetClientCommand(clientId);
-//        GetClientResult result = commandExecutor.execute(command);
-//        return result.getClient();
-//    }
+    @PostMapping("/learn/{name}")
+    public LearningResultDTO learn(@PathVariable("name") String name, @RequestBody LearningDataDTO data) {
+        LearnOnInputCommand command = new LearnOnInputCommand(
+                name,
+                data
+        );
+        LearnOnInputResult result = commandExecutor.execute(command);
+        return result.getResult();
+    }
 }
